@@ -1,13 +1,11 @@
 #include <sys/types.h>
 #include <sys/socket.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <netinet/in.h>
-// #include <unistd.h>
 #include <string.h>
 #include "errprocess.h"
 
 #define CLIENT_PORT 35
+#define SERVER_PORT 50
+#define SERVER_IP "127.0.0.1"
 #define MAX_BUFFER_SIZE 1024
 
 int main() {
@@ -32,6 +30,13 @@ int main() {
 
         char buffer[MAX_BUFFER_SIZE];
         ssize_t nread;
+        
+        int dest = Socket(AF_INET, SOCK_STREAM, 0);
+        struct sockaddr_in d_server = {0};
+        d_server.sin_family = AF_INET;
+        d_server.sin_port = htons(SERVER_PORT);
+        Inet_pton(AF_INET, SERVER_IP, &d_server.sin_addr);
+        Connect(dest, (struct sockaddr *) &d_server, sizeof(d_server));
 
         while ((nread = read(client, buffer, MAX_BUFFER_SIZE)) > 0) {
             // модификация и вывод данных
@@ -41,6 +46,7 @@ int main() {
             strcat(modified_buffer, ">");
             write(STDOUT_FILENO, modified_buffer, strlen(modified_buffer));
             printf("\n");
+            write(dest, modified_buffer, strlen(modified_buffer));
 
             // запись лога
             fprintf(logfile, "%s\n", modified_buffer);
