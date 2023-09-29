@@ -7,7 +7,8 @@ test1.o: test1.c
 install:
 	echo "Ok.."
 romfs:
-	$(ROMFSINST)  test1 /bin/test1
-	ln -sf /etc/test1 $(ROMFSDIR)/etc/init.d/S99test1
+	$(ROMFSINST) -S test1 /bin/test1
+	$(ROMFSINST) -S ../init.d/S99test1 /etc/rc.d/S99test1
+	$(ROMFSINST) -s /etc/rc.d/S99test1 /etc/init.d/test1
 clean:
 	rm -f *.o test1

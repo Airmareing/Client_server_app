@@ -10,7 +10,8 @@
 #define CLIENT_PORT 35
 #define SERVER_PORT 50
 #define SERVER_IP "192.168.1.10"
-//#define SERVER_LOCAL_IP "127.0.0.1"
+#define SERVER_LOCAL_IP "127.0.0.1"
+#define SERVER_WSL_IP "172.23.160.1"
 #define MAX_BUFFER_SIZE 1024
 
 int Socket(int domain, int type, int protocol) {
